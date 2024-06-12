@@ -1,4 +1,4 @@
-const Contact = require('./Contact') 
+const Contact = require('./Contact');
 const data = require('./data.json');
 
 class AddressBook {
@@ -10,9 +10,10 @@ class AddressBook {
     }
 
     view_all() {
-        return this.contacts
+        return this.contacts;
     }
-    
+
+
 }
 
 module.exports = AddressBook;

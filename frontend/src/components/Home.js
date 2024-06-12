@@ -1,14 +1,11 @@
-const AddressBook = require('./AddressBook') 
+import React from 'react';
 
-function Home() {
-    
-    const book = new AddressBook();
+const Home = ({ addressBook }) =>  {
 
     return (
         <div>
-            <h1>Address Book</h1>
-            <table>
-                <thead>
+            <table className="table">
+                <thead className="thead-dark">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -17,7 +14,7 @@ function Home() {
                     </tr>
                 </thead>
                 <tbody>
-                    { book.view_all().map ((contact, index) => (
+                    { addressBook.view_all().map ((contact, index) => (
                         <tr key = {index}>
                             <td>{contact.get_first_name()}</td>
                             <td>{contact.get_last_name()}</td>
