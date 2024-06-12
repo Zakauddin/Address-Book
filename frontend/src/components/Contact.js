@@ -5,6 +5,7 @@ class Contact{
 		this.phone = phone;
 		this.email = email;
 	}
+	
 	get_first_name() {
 		return this.first_name;
 	}

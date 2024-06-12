@@ -7,10 +7,12 @@ class AddressBook {
             ({ first_name, last_name, phone, email }) =>
               new Contact(first_name, last_name, phone, email)
           );
-
     }
+
+    view_all() {
+        return this.contacts
+    }
+    
 }
 
-const book = new AddressBook();
-
-console.log(data);
+module.exports = AddressBook;
