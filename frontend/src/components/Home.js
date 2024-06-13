@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Home = ({ addressBook }) =>  {
+
+    const [contacts, set_contacts] = useState([]);
+
+    useEffect(() => {
+        set_contacts(addressBook.view_all());
+    }, [addressBook]);
+
+    const handle_delete_contact = (index) => {
+        addressBook.delete_contact(index);
+        set_contacts(addressBook.view_all());
+    };
+
+    const temp = (index) => {
+        console.log(index);
+    };
 
     return (
         <div>
@@ -11,15 +26,23 @@ const Home = ({ addressBook }) =>  {
                         <th>Last Name</th>
                         <th>Phone</th>
                         <th>Email</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    { addressBook.view_all().map ((contact, index) => (
+                    { contacts.map((contact, index) => (
                         <tr key = {index}>
-                            <td>{contact.get_first_name()}</td>
-                            <td>{contact.get_last_name()}</td>
-                            <td>{contact.get_phone()}</td>
-                            <td>{contact.get_email()}</td>
+                            <td>{contact.first_name}</td>
+                            <td>{contact.last_name}</td>
+                            <td>{contact.phone}</td>
+                            <td>{contact.email}</td>
+                            <td>
+                                <button className="btn btn-dark" onClick={() => temp(index)}>{"edit"}</button>
+                            </td>
+                            <td>
+                                <button className="btn btn-dark" onClick={() => handle_delete_contact(index)}>{"delete"}</button>
+                            </td>
                         </tr>    
                     )) }
                 </tbody>

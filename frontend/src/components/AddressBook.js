@@ -9,8 +9,22 @@ class AddressBook {
           );
     }
 
+    convert_contact_to_JSON(contact, index) {
+        return {
+            index: index,
+            first_name: contact.get_first_name(),
+            last_name: contact.get_last_name(),
+            phone: contact.get_phone(),
+            email: contact.get_email()
+        };
+    }
+
     view_all() {
-        return this.contacts;
+        return this.contacts.map((contact, index) => this.convert_contact_to_JSON(contact, index));
+    }
+
+    delete_contact(index) {
+        this.contacts.splice(index, 1);
     }
 
 
