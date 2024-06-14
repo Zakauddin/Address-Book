@@ -1,8 +1,8 @@
 import './App.css';
 import {BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import Home from "./components/Home";
-import NewContact from "./components/NewContact"
+import Home from "./pages/Home";
+import NewContact from "./pages/NewContact"
 
 const AddressBook = require('./components/AddressBook') 
 

@@ -34,7 +34,7 @@ class AddressBook {
 
     search_contacts(data) {
         const l_query = data.query.toLowerCase();
-        
+
         return this.contacts.reduce((result, contact, index) => {
             const l_first_name = contact.get_first_name().toLowerCase();
             const l_last_name = contact.get_last_name().toLowerCase();
@@ -50,6 +50,14 @@ class AddressBook {
 
             return result;
         }, []);
+    }
+
+    update_contact(data) {
+        const index = data.index;
+        this.contacts[index].set_first_name(data.first_name);
+        this.contacts[index].set_last_name(data.last_name);
+        this.contacts[index].set_phone(data.phone);
+        this.contacts[index].set_email(data.email);
     }
 }
 
