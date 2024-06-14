@@ -18,9 +18,9 @@ const Home = ({ addressBook }) =>  {
     };
 
     return (
-        <div>
+        <div className="container pt-3">
             <table className="table">
-                <thead className="thead-dark">
+                <thead className="bg-danger text-white">
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -38,10 +38,10 @@ const Home = ({ addressBook }) =>  {
                             <td>{contact.phone}</td>
                             <td>{contact.email}</td>
                             <td>
-                                <button className="btn btn-dark" onClick={() => temp(index)}>{"edit"}</button>
+                                <button className="btn btn-danger" onClick={() => temp(index)}>{"edit"}</button>
                             </td>
                             <td>
-                                <button className="btn btn-dark" onClick={() => handle_delete_contact(index)}>{"delete"}</button>
+                                <button className="btn btn-danger" onClick={() => handle_delete_contact(index)}>{"delete"}</button>
                             </td>
                         </tr>    
                     )) }

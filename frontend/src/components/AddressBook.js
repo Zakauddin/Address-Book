@@ -27,7 +27,9 @@ class AddressBook {
         this.contacts.splice(index, 1);
     }
 
-
+    add_contact(data) {
+        this.contacts.push(new Contact(data.first_name, data.last_name, data.phone, data.email))
+    }
 }
 
 module.exports = AddressBook;
