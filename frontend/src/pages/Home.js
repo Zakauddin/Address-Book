@@ -14,7 +14,10 @@ const Home = ({ addressBook }) =>  {
     // gathers the appropriate set of contact list whenever the component is rendered
     useEffect(() => {
         if (query_json.query === "") {
-            set_contacts(addressBook.view_all());
+            fetch('http://localhost:4000/get_all_contacts')
+                .then(response => response.json())
+                .then(json => set_contacts(json))
+                .catch(error => console.error(error));
         } else {
             set_contacts(addressBook.search_contacts(query_json));
         }
