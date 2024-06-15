@@ -5,21 +5,22 @@ import EditContact from '../components/EditContact'
 
 const Home = ({ addressBook }) =>  {
 
-    const [contacts, set_contacts] = useState([]);
-    const [query, set_query] = useState("");
-    const [query_json, set_json] = useState({query : ""});
-    const [edit_contact, set_edit_contact] = useState(null);
-    const [edit_done, set_edit_done] = useState(null);
+    const [contacts, set_contacts] = useState([]); //stores the list of contacts' json
+    const [query, set_query] = useState(""); //stores the current search query
+    const [query_json, set_json] = useState({query : ""}); //stores the query json that is sent to the address book object
+    const [edit_contact, set_edit_contact] = useState(null); //stores the details of the contact that needs to be edited
+    const [edit_done, set_edit_done] = useState(null); //indicator to confirm that edit mode is closed
 
+    // gathers the appropriate set of contact list whenever the component is rendered
     useEffect(() => {
         if (query_json.query === "") {
             set_contacts(addressBook.view_all());
         } else {
             set_contacts(addressBook.search_contacts(query_json));
         }
-        
     }, [addressBook, query_json, edit_done]);
 
+    // updates the contact in the address book whenever editing is completed
     useEffect(() => {
         if (edit_done === "True"){
             addressBook.update_contact(edit_contact);
@@ -31,16 +32,19 @@ const Home = ({ addressBook }) =>  {
         }
     }, [addressBook, edit_contact, edit_done]);
 
+    // updates the query json whenever a new search is made
     const handle_query = (e) => {
         e.preventDefault();
         set_json({query: query});
     }
 
+    // finds the contact to be edited based on the index and updates the edit contact variable
     const handle_edit_contact = (index) => {
         const contact_to_edit = contacts.find((contact) => contact.index === index);
         set_edit_contact(contact_to_edit);
     };
 
+    // deletes the selected contact and updates the table
     const handle_delete_contact = (index) => {
         addressBook.delete_contact(index);
         if (query === "") {
@@ -52,7 +56,7 @@ const Home = ({ addressBook }) =>  {
 
     return (
         <div className="container pt-3">
-
+            {/* checks if a contact needs to be edited */}
             {edit_contact !== null? (
                 <EditContact 
                     edit_contact ={edit_contact}
@@ -61,12 +65,14 @@ const Home = ({ addressBook }) =>  {
                 />
             ) : (
                 <>
+                    {/* displays the search bar */}
                     <SearchForm
                         query={query}
                         handle_query={handle_query}
                         set_query={set_query}
                     />
 
+                    {/* if number of contact being searched is greater than 0, displays them in  a table */}
                     {contacts.length > 0 ? (
                         <ContactTable
                             contacts={contacts}

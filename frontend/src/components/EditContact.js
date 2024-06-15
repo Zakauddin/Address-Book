@@ -32,6 +32,9 @@ const EditContact = ({ edit_contact, set_edit_contact, set_edit_done}) => {
             <div className="p-1 bg-danger text-white">
                 <h3 className="pl-2 pt-1">Edit Contact</h3>
             </div>
+            <div className='pt-2'>
+                <button className="btn btn-danger" onClick={() => set_edit_done("False")}>Back</button>
+            </div>
             <form onSubmit={confirm_edit_contact}>
                 <div className="mt-2 row">
                     <div className="col">
