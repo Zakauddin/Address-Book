@@ -1,43 +1,37 @@
-const Contact = require("./Contact");
-const data = require('./data.json');
+
 
 class AddressBook {
 
     // private variable to store a lit of contact objects
     #contacts;
 
-    constructor(){
-        this.#contacts = data.map(
-            ({ first_name, last_name, phone, email }) =>
-              new Contact(first_name, last_name, phone, email)
-          );
-    }
-
-    // gets all the data of a contact and the index of the contact in the arrat to create a json 
-    convert_contact_to_JSON(contact, index) {
-        return {
-            index: index,
-            first_name: contact.get_first_name(),
-            last_name: contact.get_last_name(),
-            phone: contact.get_phone(),
-            email: contact.get_email()
-        };
+    constructor(data){
+        this.#contacts = data;
     }
 
     // retruns a json of including all the details of all the contacts
     view_all() {
-        const data =  this.#contacts.map((contact, index) => this.convert_contact_to_JSON(contact, index));
+        const data =  this.#contacts.map((contact, index) => {
+            const temp = contact.get_json();
+            temp["index"] = index;
+            return temp;
+        });
         return data;
     }
 
     // deletes the contact of the index provided
     delete_contact(index) {
-        this.#contacts.splice(index, 1);
+        if (index < this.#contacts.lenth) { 
+            this.#contacts.splice(index, 1);
+            return "Contact Deleted!";
+        } else {
+            return "Invalid Index!";
+        }
     }
 
-    // adds a new contact object to the list
-    add_contact(data) {
-        this.#contacts.push(new Contact(data.first_name, data.last_name, data.phone, data.email))
+    add_contact(contact) {
+        this.#contacts.push(contact);
+        return "Contact Added!";
     }
 
     // search for all relevant contacts matching the query in the data parameter
@@ -45,15 +39,9 @@ class AddressBook {
         const l_query = data.query.toLowerCase();
 
         return this.#contacts.reduce((result, contact, index) => {
-            const l_first_name = contact.get_first_name().toLowerCase();
-            const l_last_name = contact.get_last_name().toLowerCase();
-            const phone = contact.get_phone();
-            const l_email = contact.get_first_name().toLowerCase();
-
-            if(
-                l_first_name.includes(l_query) || l_last_name.includes(l_query) || phone.includes(l_query) || l_email.includes(l_query)
-            ) {
-                const contact_JSON = this.convert_contact_to_JSON(contact, index);
+            if(contact.search(l_query) === true) {
+                const contact_JSON = contact.get_json();
+                contact_JSON["index"] = index;
                 result.push(contact_JSON);
             }
 
@@ -64,10 +52,8 @@ class AddressBook {
     // update details of the contact at the specified index
     update_contact(data) {
         const index = data.index;
-        this.#contacts[index].set_first_name(data.first_name);
-        this.#contacts[index].set_last_name(data.last_name);
-        this.#contacts[index].set_phone(data.phone);
-        this.#contacts[index].set_email(data.email);
+        this.#contacts[index].update(data);
+        return "Contact Updated!";
     }
 }
 

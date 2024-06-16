@@ -11,13 +11,17 @@ const Home = ({ addressBook }) =>  {
     const [edit_contact, set_edit_contact] = useState(null); //stores the details of the contact that needs to be edited
     const [edit_done, set_edit_done] = useState(null); //indicator to confirm that edit mode is closed
 
-    // gathers the appropriate set of contact list whenever the component is rendered
-    useEffect(() => {
-        if (query_json.query === "") {
-            fetch('http://localhost:4000/get_all_contacts')
+    const get_all_contacts = () => {
+        fetch('http://localhost:4000/get_all_contacts')
                 .then(response => response.json())
                 .then(json => set_contacts(json))
                 .catch(error => console.error(error));
+    }
+
+    // gathers the appropriate set of contact list whenever the component is rendered
+    useEffect(() => {
+        if (query_json.query === "") {
+            get_all_contacts()
         } else {
             set_contacts(addressBook.search_contacts(query_json));
         }
@@ -51,7 +55,7 @@ const Home = ({ addressBook }) =>  {
     const handle_delete_contact = (index) => {
         addressBook.delete_contact(index);
         if (query === "") {
-            set_contacts(addressBook.view_all());
+            get_all_contacts()
         } else {
             set_contacts(addressBook.search_contacts(query_json));
         }
