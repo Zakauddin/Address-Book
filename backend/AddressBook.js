@@ -1,5 +1,3 @@
-
-
 class AddressBook {
 
     // private variable to store a lit of contact objects
