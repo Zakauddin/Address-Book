@@ -2,9 +2,17 @@ class AddressBook {
 
     // private variable to store a lit of contact objects
     #contacts;
+    #no_of_contacts = 0;
 
     constructor(data){
-        this.#contacts = data;
+        if (data !== undefined) {
+            this.#contacts = data;
+            this.#no_of_contacts = data.length;
+        }
+    }
+
+    get_size(){
+        return this.#no_of_contacts;
     }
 
     // retruns a json of including all the details of all the contacts
@@ -19,8 +27,9 @@ class AddressBook {
 
     // deletes the contact of the index provided
     delete_contact(index) {
-        if (index < this.#contacts.lenth) { 
+        if (index < this.#no_of_contacts) { 
             this.#contacts.splice(index, 1);
+            this.#no_of_contacts = this.#no_of_contacts - 1;
             return "Contact Deleted!";
         } else {
             return "Invalid Index!";
@@ -29,6 +38,7 @@ class AddressBook {
 
     add_contact(contact) {
         this.#contacts.push(contact);
+        this.#no_of_contacts = this.#no_of_contacts + 1;
         return "Contact Added!";
     }
 
