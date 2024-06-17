@@ -19,6 +19,8 @@ app.get("/get_all_contacts", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+module.exports = server

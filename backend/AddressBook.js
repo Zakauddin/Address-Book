@@ -15,6 +15,11 @@ class AddressBook {
         return this.#no_of_contacts;
     }
 
+    // returns the json of a contact at the specified index, mainly used for assertion while testing
+    get_contact(index) {
+        return this.#contacts[index].contact_JSON();
+    }
+
     // retruns a json of including all the details of all the contacts
     view_all() {
         const data =  this.#contacts.map((contact, index) => {
@@ -36,6 +41,7 @@ class AddressBook {
         }
     }
 
+    // adds a new contact object to the array
     add_contact(contact) {
         this.#contacts.push(contact);
         this.#no_of_contacts = this.#no_of_contacts + 1;
@@ -60,8 +66,12 @@ class AddressBook {
     // update details of the contact at the specified index
     update_contact(data) {
         const index = data.index;
-        this.#contacts[index].update(data);
-        return "Contact Updated!";
+        if (index < this.#no_of_contacts) { 
+            this.#contacts[index].update(data);
+            return "Contact Updated!";
+        } else {
+            return "Invalid Index!";
+        }
     }
 }
 
