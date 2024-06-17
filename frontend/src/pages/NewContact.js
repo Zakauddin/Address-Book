@@ -19,6 +19,12 @@ const NewContact = ({ addressBook }) => {
         };
 
         addressBook.add_contact(contact);
+        fetch("http://localhost:4000/add_contact", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(contact)
+        })
+        .catch(error => console.error(error));;
         
         set_first_name('');
         set_last_name('');
@@ -70,7 +76,7 @@ const NewContact = ({ addressBook }) => {
                         type="tel"
                         className="form-control"
                         id="phone"
-                        pattern="[0][0-9]{11}"
+                        pattern="[0-9]{2,}"
                         placeholder="Enter phone number"
                         value={phone}
                         onChange={(e) => set_phone(e.target.value)}

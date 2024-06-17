@@ -3,8 +3,11 @@ const Contact = require("./Contact");
 const data = require('./data.json');
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 contacts_array = data.map(
@@ -22,6 +25,21 @@ app.get("/search_contacts/:query", (req, res) => {
     const query = {"query" : req.params.query};
     res.status(200).json(book.search_contacts(query));
 });
+
+app.post("/add_contact", (req, res) => {
+    if (req.body["first_name"] && req.body["last_name"] && req.body["phone"] && req.body["email"] ){
+        const contact = new Contact(req.body["first_name"], req.body["last_name"], req.body["phone"], req.body["email"]);
+        book.add_contact(contact);
+        const last_index = book.get_size() - 1;
+        const temp =  book.get_contact(last_index);
+        res.status(201).json(temp);
+        
+    } else{
+        res.status(206).json({"error" : "Incomplete details"})
+    }
+}
+
+);
 
 
 

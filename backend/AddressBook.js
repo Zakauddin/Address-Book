@@ -17,7 +17,7 @@ class AddressBook {
 
     // returns the json of a contact at the specified index, mainly used for assertion while testing
     get_contact(index) {
-        return this.#contacts[index].contact_JSON();
+        return this.#contacts[index].get_json();
     }
 
     // retruns a json of including all the details of all the contacts

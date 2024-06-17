@@ -27,7 +27,9 @@ describe('API Testing', () => {
             "phone" : '15',
             "email" : 'abc@yahoo.com'
         };
-        const response = await api.post('/add_contact').send(contact);
+        const response = await api.post('/add_contact')
+            .set('Content-Type', 'application/json')
+            .send(contact);
         expect(response.status).to.equal(201);
         expect(response.body.first_name).to.equal(contact.first_name);
     });
@@ -38,7 +40,9 @@ describe('API Testing', () => {
             "phone" : '15',
             "email" : 'abc@yahoo.com'
         };
-        const response = await api.post('/add_contact').send(contact);
+        const response = await api.post('/add_contact')
+            .set('Content-Type', 'application/json')
+            .send(contact);
         expect(response.status).to.equal(206);
         expect(response.body.error).to.equal("Incomplete details");
     });
