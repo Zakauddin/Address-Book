@@ -33,13 +33,20 @@ app.post("/add_contact", (req, res) => {
         const last_index = book.get_size() - 1;
         const temp =  book.get_contact(last_index);
         res.status(201).json(temp);
-        
     } else{
-        res.status(206).json({"error" : "Incomplete details"})
+        res.status(206).json({"error" : "Incomplete details"});
     }
-}
+});
 
-);
+app.delete("/delete_contact/:index", (req, res) => {
+    const index = req.params.index;
+    if(index < book.get_size()){
+        book.delete_contact(index);
+        res.status(200).json({"message" : "Contact Deleted!"});
+    } else {
+        res.status(406).json({"error" : "Invalid Index!"});
+    }
+});
 
 
 

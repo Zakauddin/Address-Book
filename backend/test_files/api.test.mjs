@@ -50,7 +50,7 @@ describe('API Testing', () => {
     it('Test5, /delete_contact valid', async () => {
         const index = "0";
         const response = await api.delete('/delete_contact/'+index);
-        expect(response.status).to.equal(204);
+        expect(response.status).to.equal(200);
         expect(response.body.message).to.equal("Contact Deleted!");
     });
 

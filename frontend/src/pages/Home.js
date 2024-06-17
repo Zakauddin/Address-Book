@@ -10,22 +10,31 @@ const Home = ({ addressBook }) =>  {
     const [query_json, set_json] = useState({query : ""}); //stores the query json that is sent to the address book object
     const [edit_contact, set_edit_contact] = useState(null); //stores the details of the contact that needs to be edited
     const [edit_done, set_edit_done] = useState(null); //indicator to confirm that edit mode is closed
+    const [deleted, set_deleted] = useState(null);
 
+    // api calls
     const get_all_contacts = () => {
         fetch('http://localhost:4000/get_all_contacts')
-                .then(response => response.json())
-                .then(json => set_contacts(json))
-                .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(json => set_contacts(json))
+            .catch(error => console.error(error));
     }
 
     const get_searched_contacts = (query) => {
         fetch('http://localhost:4000/search_contacts/' + query)
-                .then(response => response.json())
-                .then(json => set_contacts(json))
-                .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(json => set_contacts(json))
+            .catch(error => console.error(error));
     }
 
-    
+    const delete_contact = (index) => {
+        fetch('http://localhost:4000/delete_contact/' + index, {
+            method: "DELETE"
+        })
+            .then(response => response.json())
+            .then(json => console.log(json))
+            .catch(error => console.error(error));
+    }
 
     // gathers the appropriate set of contact list whenever the component is rendered
     useEffect(() => {
@@ -34,17 +43,18 @@ const Home = ({ addressBook }) =>  {
         } else {
             get_searched_contacts(query);
         }
-    }, [addressBook, query_json, edit_done]);
+        set_deleted(false);
+    }, [query_json, edit_done, deleted]);
 
     // updates the contact in the address book whenever editing is completed
     useEffect(() => {
         if (edit_done === "True"){
             addressBook.update_contact(edit_contact);
             set_edit_contact(null);
-            set_edit_done(null)
+            set_edit_done(null);
         } else if (edit_done === "False"){
             set_edit_contact(null);
-            set_edit_done(null)
+            set_edit_done(null);
         }
     }, [addressBook, edit_contact, edit_done]);
 
@@ -62,12 +72,8 @@ const Home = ({ addressBook }) =>  {
 
     // deletes the selected contact and updates the table
     const handle_delete_contact = (index) => {
-        addressBook.delete_contact(index);
-        if (query === "") {
-            get_all_contacts()
-        } else {
-            get_searched_contacts(query);
-        }
+        delete_contact(index);
+        set_deleted(true);
     };
 
     return (
