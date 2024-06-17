@@ -3,7 +3,7 @@ import ContactTable from '../components/ContactsTable';
 import SearchForm from '../components/SearchForm';
 import EditContact from '../components/EditContact'
 
-const Home = ({ addressBook }) =>  {
+const Home = () =>  {
 
     const [contacts, set_contacts] = useState([]); //stores the list of contacts' json
     const [query, set_query] = useState(""); //stores the current search query
@@ -36,6 +36,17 @@ const Home = ({ addressBook }) =>  {
             .catch(error => console.error(error));
     }
 
+    const update_contact = (edit_contact) => {
+        fetch("http://localhost:4000/update_contact", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(edit_contact)
+        })
+        .then(response => response.json())
+        .then(json => console.log(json.message))
+        .catch(error => console.error(error));;
+    }
+
     // gathers the appropriate set of contact list whenever the component is rendered
     useEffect(() => {
         if (query_json.query === "") {
@@ -49,14 +60,14 @@ const Home = ({ addressBook }) =>  {
     // updates the contact in the address book whenever editing is completed
     useEffect(() => {
         if (edit_done === "True"){
-            addressBook.update_contact(edit_contact);
+            update_contact(edit_contact);
             set_edit_contact(null);
             set_edit_done(null);
-        } else if (edit_done === "False"){
+        } else if (edit_done === "False") {
             set_edit_contact(null);
             set_edit_done(null);
         }
-    }, [addressBook, edit_contact, edit_done]);
+    }, [edit_contact, edit_done]);
 
     // updates the query json whenever a new search is made
     const handle_query = (e) => {

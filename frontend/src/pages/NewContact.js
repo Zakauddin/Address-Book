@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NewContact = ({ addressBook }) => {
+const NewContact = () => {
     const [first_name, set_first_name] = useState('');
     const [last_name, set_last_name] = useState('');
     const [phone, set_phone] = useState('');
@@ -18,7 +18,6 @@ const NewContact = ({ addressBook }) => {
             email: email,
         };
 
-        addressBook.add_contact(contact);
         fetch("http://localhost:4000/add_contact", {
             method: "POST",
             headers: {"Content-Type": "application/json"},

@@ -48,7 +48,17 @@ app.delete("/delete_contact/:index", (req, res) => {
     }
 });
 
-
+app.put("/update_contact", (req, res) => {
+    const body = req.body;
+    if(body.index < book.get_size()){
+        book.update_contact(body);
+        const temp = book.get_contact(body.index);
+        temp["message"] = "Contact Updated!";
+        res.status(200).json(temp);
+    } else {
+        res.status(406).json({"error" : "Invalid Index!"});
+    }
+});
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {

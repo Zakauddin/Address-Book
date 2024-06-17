@@ -84,8 +84,8 @@ describe('API Testing', () => {
             "email" : 'abc@yahoo.com'
         };
         const response = await api.put('/update_contact').send(contact);
-        expect(response.status).to.equal(200);
-        expect(response.body.message).to.equal("Invalid Index!");
+        expect(response.status).to.equal(406);
+        expect(response.body.error).to.equal("Invalid Index!");
     });
 });
 
