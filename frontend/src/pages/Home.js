@@ -18,12 +18,21 @@ const Home = ({ addressBook }) =>  {
                 .catch(error => console.error(error));
     }
 
+    const get_searched_contacts = (query) => {
+        fetch('http://localhost:4000/search_contacts/' + query)
+                .then(response => response.json())
+                .then(json => set_contacts(json))
+                .catch(error => console.error(error));
+    }
+
+    
+
     // gathers the appropriate set of contact list whenever the component is rendered
     useEffect(() => {
         if (query_json.query === "") {
             get_all_contacts()
         } else {
-            set_contacts(addressBook.search_contacts(query_json));
+            get_searched_contacts(query);
         }
     }, [addressBook, query_json, edit_done]);
 
@@ -57,7 +66,7 @@ const Home = ({ addressBook }) =>  {
         if (query === "") {
             get_all_contacts()
         } else {
-            set_contacts(addressBook.search_contacts(query_json));
+            get_searched_contacts(query);
         }
     };
 

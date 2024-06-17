@@ -18,6 +18,13 @@ app.get("/get_all_contacts", (req, res) => {
     res.status(200).json(book.view_all());
 });
 
+app.get("/search_contacts/:query", (req, res) => {
+    const query = {"query" : req.params.query};
+    res.status(200).json(book.search_contacts(query));
+});
+
+
+
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
