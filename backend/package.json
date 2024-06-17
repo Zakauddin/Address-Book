@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test_files/*.test.mjs",
-    "server": "node index.js"
+    "server": "node index.js",
+    "client": "npm run start --prefix ../frontend",
+    "app": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
   "dependencies": {
     "chai": "^5.1.1",
     "chai-http": "^5.0.0",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mocha": "^10.4.0",

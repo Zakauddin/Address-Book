@@ -20,8 +20,8 @@ const Home = () =>  {
             .catch(error => console.error(error));
     }
 
-    const get_searched_contacts = (query) => {
-        fetch('http://localhost:4000/search_contacts/' + query)
+    const get_searched_contacts = (query_json) => {
+        fetch('http://localhost:4000/search_contacts/' + query_json.query)
             .then(response => response.json())
             .then(json => set_contacts(json))
             .catch(error => console.error(error));
@@ -32,7 +32,7 @@ const Home = () =>  {
             method: "DELETE"
         })
             .then(response => response.json())
-            .then(json => console.log(json))
+            .then(json => console.log(json.message))
             .catch(error => console.error(error));
     }
 
@@ -52,7 +52,7 @@ const Home = () =>  {
         if (query_json.query === "") {
             get_all_contacts()
         } else {
-            get_searched_contacts(query);
+            get_searched_contacts(query_json);
         }
         set_deleted(false);
     }, [query_json, edit_done, deleted]);

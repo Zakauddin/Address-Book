@@ -28,7 +28,6 @@ const update_file = () => {
           console.error(error);
           throw error;
         }
-        console.log("data.json updated!");
     });
 }
 
@@ -39,6 +38,7 @@ app.get("/get_all_contacts", (req, res) => {
 app.get("/search_contacts/:query", (req, res) => {
     const query = {"query" : req.params.query};
     res.status(200).json(book.search_contacts(query));
+
 });
 
 app.post("/add_contact", (req, res) => {
